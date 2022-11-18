@@ -4,16 +4,24 @@ import (
 	"flag"
 	"log"
 	"os"
+	"path"
 	"text/template"
+
+	"github.com/iancoleman/strcase"
 )
 
 type Module struct {
 	Name     string
 	Location string
+	ToKebab  func(string) string
 }
 
-func convertToSnakecase(str string) string {
-	return str
+func createFileName(name string, location string, extension string) string {
+	if extension == ".scss" {
+		return path.Join(location, "_styles.scss")
+	} else {
+		return path.Join(location, name+extension)
+	}
 }
 
 func createFile(extension string, tmplName string, data Module) {
@@ -23,13 +31,14 @@ func createFile(extension string, tmplName string, data Module) {
 		return
 	}
 
-	file, err := os.Create(data.Location + ".ts")
+	fileName := createFileName(data.Name, data.Location, extension)
+	file, err := os.Create(fileName)
 	if err != nil {
 		log.Println("create file:", err)
 		return
 	}
 
-	tmpl.Execute(file, data)
+	err = tmpl.Execute(file, data)
 	if err != nil {
 		log.Print("execute: ", err)
 		return
@@ -44,9 +53,9 @@ func main() {
 	locationFlag := flag.String("l", ".", "location of the new module")
 	flag.Parse()
 
-	module := Module{*nameFlag, *locationFlag}
+	module := Module{*nameFlag, *locationFlag, strcase.ToKebab}
 
 	createFile(".ts", "index_export.tmpl", module)
-
-	// convertToSnakecase(*nameFlag)
+	createFile(".tsx", "module_source.tmpl", module)
+	createFile(".scss", "styles.tmpl", module)
 }

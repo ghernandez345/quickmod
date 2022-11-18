@@ -1,0 +1,11 @@
+import React from "react";
+
+interface I{{ .Name }}Props {}
+
+const baseClass = "{{ call .ToKebab .Name }}"
+
+const {{ .Name }} = ({}: I{{ .Name }}Props) => {
+  return <div classname={baseClass}></div>;
+};
+
+export default {{ .Name }};
