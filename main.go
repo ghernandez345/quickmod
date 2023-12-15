@@ -53,6 +53,10 @@ func main() {
 	locationFlag := flag.String("l", ".", "location of the new module")
 	flag.Parse()
 
+	if *nameFlag == "" || *locationFlag == "" {
+		log.Fatal("name and location are required")
+	}
+
 	module := Module{*nameFlag, *locationFlag, strcase.ToKebab}
 
 	createFile(".ts", "index_export.tmpl", module)
