@@ -1,8 +1,8 @@
 import React from "react";
 
-interface I{{ .Name }}Props {}
+const baseClass = "{{ call .ToKebab .Name }}";
 
-const baseClass = "{{ call .ToKebab .Name }}"
+interface I{{ .Name }}Props {}
 
 const {{ .Name }} = ({}: I{{ .Name }}Props) => {
   return <div classname={baseClass}></div>;
