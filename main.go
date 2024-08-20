@@ -30,6 +30,8 @@ func createDirectory(name string, location string) {
 func createFilePath(name string, location string, extension string) string {
 	if extension == ".scss" {
 		return path.Join(location, name, "_styles.scss")
+	} else if extension == ".ts" {
+		return path.Join(location, name, "index.ts")
 	} else {
 		return path.Join(location, name, name+extension)
 	}
