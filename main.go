@@ -58,6 +58,7 @@ func main() {
 
 	nameFlag := flag.String("n", "", "name of the new module")
 	locationFlag := flag.String("l", ".", "location of the new module")
+	includeTestsFlag := flag.Bool("t", false, "include test file")
 	flag.Parse()
 
 	if *nameFlag == "" {
@@ -75,4 +76,9 @@ func main() {
 	createFile(".ts", "index_export.tmpl", module)
 	createFile(".tsx", "module_source.tmpl", module)
 	createFile(".scss", "styles.tmpl", module)
+
+	if *includeTestsFlag {
+		createFile(".test.tsx", "module_test.tmpl", module)
+	}
+
 }
