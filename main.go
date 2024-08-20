@@ -23,11 +23,11 @@ func createDirectory(name string, location string) {
 	}
 }
 
-func createFileName(name string, location string, extension string) string {
+func createFilePath(name string, location string, extension string) string {
 	if extension == ".scss" {
-		return path.Join(location, "_styles.scss")
+		return path.Join(location, name, "_styles.scss")
 	} else {
-		return path.Join(location, name+extension)
+		return path.Join(location, name, name+extension)
 	}
 }
 
@@ -38,7 +38,7 @@ func createFile(extension string, tmplName string, data Module) {
 		return
 	}
 
-	fileName := createFileName(data.Name, data.Location, extension)
+	fileName := createFilePath(data.Name, data.Location, extension)
 	file, err := os.Create(fileName)
 	if err != nil {
 		log.Println("create file:", err)
@@ -67,6 +67,8 @@ func main() {
 	if *locationFlag == "" {
 		log.Fatal("location is required")
 	}
+
+	createDirectory(*nameFlag, *locationFlag)
 
 	module := Module{*nameFlag, *locationFlag, strcase.ToKebab}
 
