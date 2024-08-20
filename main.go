@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"flag"
 	"log"
 	"os"
@@ -9,6 +10,9 @@ import (
 
 	"github.com/iancoleman/strcase"
 )
+
+//go:embed templates/*
+var templatesFS embed.FS
 
 type Module struct {
 	Name     string
@@ -32,7 +36,7 @@ func createFilePath(name string, location string, extension string) string {
 }
 
 func createFile(extension string, tmplName string, data Module) {
-	tmpl, err := template.ParseFiles("templates/" + tmplName)
+	tmpl, err := template.ParseFS(templatesFS, "templates/"+tmplName)
 	if err != nil {
 		log.Print(err)
 		return
