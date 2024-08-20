@@ -33,3 +33,6 @@ go.work.sum
 
 # local notes
 notes.md
+
+# local test directory
+testProject

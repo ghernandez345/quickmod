@@ -16,6 +16,13 @@ type Module struct {
 	ToKebab  func(string) string
 }
 
+func createDirectory(name string, location string) {
+	err := os.MkdirAll(path.Join(location, name), 0755)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 func createFileName(name string, location string, extension string) string {
 	if extension == ".scss" {
 		return path.Join(location, "_styles.scss")
@@ -53,8 +60,12 @@ func main() {
 	locationFlag := flag.String("l", ".", "location of the new module")
 	flag.Parse()
 
-	if *nameFlag == "" || *locationFlag == "" {
-		log.Fatal("name and location are required")
+	if *nameFlag == "" {
+		log.Fatal("name is required")
+	}
+
+	if *locationFlag == "" {
+		log.Fatal("location is required")
 	}
 
 	module := Module{*nameFlag, *locationFlag, strcase.ToKebab}
