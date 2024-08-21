@@ -5,7 +5,7 @@ const baseClass = "{{ call .ToKebab .Name }}";
 interface I{{ .Name }}Props {}
 
 const {{ .Name }} = ({}: I{{ .Name }}Props) => {
-  return <div classname={baseClass}></div>;
+  return <div className={baseClass}></div>;
 };
 
 export default {{ .Name }};
